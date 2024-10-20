@@ -1,34 +1,12 @@
 const express = require("express");
+
+// const { createUserRoute, userRouter } = require("./routes/user");
+// const { createCourseRoute } = require("./routes/courses");
 const app = express();
+app.use("/user", userRouter);
+app.use("/courses", courseRouter);
 
-app.post("/csp/signin", function (req, res) {
-  res.json({
-    message: "login endpoint",
-  });
-});
-
-app.post("/csp/signup", function (req, res) {
-  res.json({
-    message: "registration endpoint",
-  });
-});
-
-app.get("/csp/purchases", function (req, res) {
-  res.json({
-    message: "mycourses endpoint",
-  });
-});
-
-app.post("csr/purchase", function (req, res) {
-  res.json({
-    message: "purchase",
-  });
-});
-
-app.get("/csp/courses", function (req, res) {
-  res.json({
-    message: "All courses endpoint",
-  });
-});
+// createCourseRoute(app);
+// createUserRoute(app);
 
 app.listen(3000);
