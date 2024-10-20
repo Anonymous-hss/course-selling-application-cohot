@@ -1,16 +1,6 @@
 const mongoose = require("mongoose"); // Add this line to import mongoose
 const { Schema } = mongoose;
 console.log("connected");
-mongoose
-  .connect(
-    "mongodb+srv://h2424:h2424@cluster0.c2mlnwt.mongodb.net/courseraapp",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .then(() => console.log("MongoDB connected successfully"))
-  .catch((err) => console.log("MongoDB connection error:", err));
 
 const ObjectId = mongoose.Types.ObjectId;
 
