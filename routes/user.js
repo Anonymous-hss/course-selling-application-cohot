@@ -37,12 +37,17 @@ userRouter.post("/signup", async function (req, res) {
 });
 
 userRouter.post("/signin", async function (req, res) {
-  const { email, passord } = res.body;
+  const { email, password } = res.body;
 
-  const user = await userModel.find({
+  const user = await userModel.findOne({
     email: email,
-    password: password,
   });
+
+  const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+
+  if (!isPasswordValid) {
+    return res.status(403).json({ message: "Incorrect Credentials" });
+  }
 
   if (user) {
     jwt.sign(
