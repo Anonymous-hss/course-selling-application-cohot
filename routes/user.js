@@ -21,7 +21,7 @@ userRouter.post("/signup", async function (req, res) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     await userModel.create({
       email: email,
-      hashedPassword: hashedPassword,
+      password: hashedPassword,
       firstName: firstName,
       lastName: lastName,
     });
@@ -37,13 +37,13 @@ userRouter.post("/signup", async function (req, res) {
 });
 
 userRouter.post("/signin", async function (req, res) {
-  const { email, password } = res.body;
+  const { email, password } = req.body;
 
   const user = await userModel.findOne({
     email: email,
   });
 
-  const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
     return res.status(403).json({ message: "Incorrect Credentials" });
