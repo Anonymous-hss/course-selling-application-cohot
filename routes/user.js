@@ -32,7 +32,7 @@ userRouter.post("/signup", async function (req, res) {
   }
 
   res.json({
-    message: "login endpoint",
+    message: "Signup endpoint",
   });
 });
 
@@ -59,7 +59,7 @@ userRouter.post("/signin", async function (req, res) {
     // Token based authentication logic -----
 
     res.json({
-      message: "signup endpoint",
+      message: "signin endpoint",
     });
   } else {
     res.status(403).json({
