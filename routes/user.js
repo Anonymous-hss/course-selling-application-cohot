@@ -4,7 +4,7 @@ const { z } = require("zod");
 const saltRounds = 5;
 const { userModel } = require("../db");
 const jwt = require("jsonwebtoken");
-const JWT_USER_PASSWORD = "aladin4568";
+const { JWT_USER_PASSWORD } = require("../config");
 
 const userRouter = Router();
 

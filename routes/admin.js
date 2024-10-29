@@ -1,10 +1,12 @@
 const { Router } = require("express");
+const bcrypt = require("bcrypt");
+const saltRounds = 7; // or adjust as needed
 const adminRouter = Router();
 const { adminModel } = require("../db.js");
 const jwt = require("jsonwebtoken");
 const { z } = require("zod");
 
-const JWT_ADMIN_PASSWORD = "8932794hd";
+const { JWT_ADMIN_PASSWORD } = require("../config");
 
 const adminSchema = z.object({
   email: z.string().email({ message: "Invalid Emial Address" }),
