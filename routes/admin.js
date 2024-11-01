@@ -2,7 +2,7 @@ const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const saltRounds = 7; // or adjust as needed
 const adminRouter = Router();
-const { adminModel } = require("../db.js");
+const { adminModel, courseModel } = require("../db.js");
 const jwt = require("jsonwebtoken");
 const { z } = require("zod");
 
@@ -74,9 +74,19 @@ adminRouter.post("/signin", async function (req, res) {
   });
 });
 
-adminRouter.post("/course", function (req, res) {
+adminRouter.post("/course", async function (req, res) {
+  const adminId = req.userId;
+  const { title, description, imageUrl, price } = req.body;
+  const course = await courseModel.create({
+    title,
+    description,
+    imageUrl,
+    price,
+    creatorId,
+  });
   res.json({
     message: "course endpoint",
+    courseId: course._id,
   });
 });
 
