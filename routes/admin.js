@@ -76,23 +76,29 @@ adminRouter.post("/signin", async function (req, res) {
 
 adminRouter.post("/course", async function (req, res) {
   const adminId = req.userId;
-  const { title, description, imageUrl, price } = req.body;
-  const course = await courseModel.create({
-    title,
-    description,
-    imageUrl,
-    price,
-    creatorId,
-  });
+  const { title, description, imageUrl, price, courseId } = req.body;
+  const course = await courseModel.updateOne(
+    { _id: courseId, creatorId: adminId },
+    {
+      title,
+      description,
+      imageUrl,
+      price,
+      creatorId,
+    }
+  );
   res.json({
-    message: "course endpoint",
+    message: "course updated",
     courseId: course._id,
   });
 });
 
-adminRouter.put("/course", function (req, res) {
+adminRouter.put("/course/bulk", adminMiddleware, async function (req, res) {
+  const adminId = req.userId;
+  const course = await courseModel.find({ creatorId: adminId });
   res.json({
-    message: "signup endpoint",
+    message: "course updated",
+    course,
   });
 });
 
