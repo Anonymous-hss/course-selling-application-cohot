@@ -2,9 +2,10 @@ const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const { z } = require("zod");
 const saltRounds = 5;
-const { userModel } = require("../db");
+const { userModel, purchaseModel, courseModel } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_USER_PASSWORD } = require("../config");
+const { userMiddleware } = require("../middleware/user");
 
 const userRouter = Router();
 
@@ -72,9 +73,27 @@ userRouter.post("/signin", async function (req, res) {
   });
 });
 
-userRouter.get("/purchases", function (req, res) {
+userRouter.get("/purchases", userMiddleware, async function (req, res) {
+  const userId = req.userId;
+
+  const purchases = await purchaseModel.find({
+    userId,
+  });
+
+  let purchasedCourseIds = [];
+  for (let i = 0; i < purchases.length; i++) {
+    purchasedCourseIds.push(purchases[i].courseId);
+  }
+
+  const courseData = await courseModel.find({
+    _id: {
+      $in: purchasedCourseIds,
+    },
+  });
+
   res.json({
-    message: "mycourses endpoint",
+    purchases,
+    courseData,
   });
 });
 
